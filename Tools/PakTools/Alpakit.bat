@@ -1,0 +1,1 @@
+u4pak.py pack ModName_p.pak FactoryGame
