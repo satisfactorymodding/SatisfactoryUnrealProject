@@ -99,7 +99,8 @@ public:
 
 	// Begin AActor Interface
 	virtual void PostActorCreated() override;
-	virtual void PostInitializeComponents() override;
+	//MODDING EDIT PostInitialize crashed  when creating a blueprint child
+	//virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;
 	virtual void EndPlay( const EEndPlayReason::Type endPlayReason ) override;
 	virtual void Tick( float deltaTime ) override;
