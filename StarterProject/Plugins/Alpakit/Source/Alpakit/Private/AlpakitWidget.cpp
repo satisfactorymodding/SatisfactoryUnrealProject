@@ -1,18 +1,33 @@
 #include "AlpakitWidget.h"
-#include "TextBoxListItem.h"
 #include "Developer/DesktopPlatform/Public/IDesktopPlatform.h"
 #include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
 #include "Editor/UATHelper/Public/IUATHelperModule.h"
+#include "PropertyEditorModule.h"
 
 void SAlpakaWidget::Construct(const FArguments& InArgs)
 {
 	Settings = GetMutableDefault<UAlpakitSettings>();
-	for (FString mod : Settings->Mods)
+	// initialize settings view
+	FDetailsViewArgs DetailsViewArgs;
 	{
-		TSharedPtr<FEditableItem> item = MakeShareable(new FEditableItem());
-		item.Get()->Text = mod;
-		Items.Add(item);
+		DetailsViewArgs.bAllowSearch = true;
+		DetailsViewArgs.bHideSelectionTip = true;
+		DetailsViewArgs.bLockable = false;
+		DetailsViewArgs.bSearchInitialKeyFocus = true;
+		DetailsViewArgs.bUpdatesFromSelection = false;
+		DetailsViewArgs.bShowOptions = true;
+		DetailsViewArgs.bShowModifiedPropertiesOption = true;
+		DetailsViewArgs.bShowActorLabel = false;
+		DetailsViewArgs.bCustomNameAreaLocation = true;
+		DetailsViewArgs.bCustomFilterAreaLocation = true;
+		DetailsViewArgs.NameAreaSettings = FDetailsViewArgs::HideNameArea;
+		DetailsViewArgs.bAllowMultipleTopLevelObjects = true;
+		DetailsViewArgs.bShowScrollBar = false; // Don't need to show this, as we are putting it in a scroll box
 	}
+
+	DetailsView = FModuleManager::GetModuleChecked<FPropertyEditorModule>("PropertyEditor").CreateDetailView(DetailsViewArgs);
+	DetailsView->SetObject(Settings);
+
 	ChildSlot
 		.VAlign(VAlign_Fill)
 		.HAlign(HAlign_Fill)
@@ -84,21 +99,10 @@ void SAlpakaWidget::Construct(const FArguments& InArgs)
 				.FillHeight(1.0f)
 				[
 					SNew(SScrollBox)
-					+ SScrollBox::Slot()
-						[
-							SNew(SButton)
-							.Text(FText::FromString("Add mod"))
-							.OnClicked_Raw(this, &SAlpakaWidget::AddMod)
-						]
-
 					//The actual list view creation
 					+ SScrollBox::Slot()
 						[
-							SAssignNew(ListViewWidget, SListView<TSharedPtr<FEditableItem>>)
-							.ItemHeight(24)
-							.SelectionMode(ESelectionMode::None)
-							.ListItemsSource(&Items) //The Items array is the source of this listview
-							.OnGenerateRow(this, &SAlpakaWidget::OnGenerateRowForList)
+							DetailsView.ToSharedRef()
 						]
 				]
 			+ SVerticalBox::Slot()
@@ -111,13 +115,6 @@ void SAlpakaWidget::Construct(const FArguments& InArgs)
 						.FillWidth(1.0f)
 						.VAlign(VAlign_Center)
 						.HAlign(HAlign_Fill)
-						[
-							SAssignNew(SaveSettingsButton, SButton)
-							.VAlign(VAlign_Center)
-							.HAlign(HAlign_Center)
-							.Text(FText::FromString("Save Settings"))
-							.OnClicked_Raw(this, &SAlpakaWidget::SaveSettings)
-						]
 					+	SHorizontalBox::Slot()
 						.Padding(3.0f)
 						.AutoWidth()
@@ -136,65 +133,13 @@ void SAlpakaWidget::Construct(const FArguments& InArgs)
 
 }
 
-FReply SAlpakaWidget::AddMod()
-{
-	//Adds a new item to the array (do whatever you want with this)
-	TSharedPtr<FEditableItem> item = MakeShareable(new FEditableItem());
-	item.Get()->Text = "ModName";
-	Items.Add(item);
-	//Update the listview
-	ListViewWidget->RequestListRefresh();
-
-	return FReply::Handled();
-}
-
-
-TSharedRef<ITableRow> SAlpakaWidget::OnGenerateRowForList(TSharedPtr<FEditableItem> Item, const TSharedRef<STableViewBase>& OwnerTable)
-{
-	//Create the row
-	return
-		SNew(STableRow< TSharedPtr<FEditableItem> >, OwnerTable)
-		.Padding(2.0f)
-		[
-			SNew(SHorizontalBox)
-			+	SHorizontalBox::Slot()
-				.HAlign(HAlign_Fill)
-				.VAlign(VAlign_Center)
-				.FillWidth(1.0f)
-				[
-					SNew(STextboxListItem)
-					.Item(Item)
-				]
-			+	SHorizontalBox::Slot()
-				.HAlign(HAlign_Center)
-				.VAlign(VAlign_Center)
-				.AutoWidth()
-				.Padding(2.0f)
-				[
-					SNew(SButton)
-					.Text(FText::FromString("Delete"))
-					.OnClicked_Lambda([this, Item]() { Items.Remove(Item); return FReply::Handled(); })
-				]
-		];
-}
-
 TSharedRef<SWidget> SAlpakaWidget::AsWidget()
 {
 	return SharedThis(this);
 }
 
-FReply SAlpakaWidget::SaveSettings()
-{
-	Settings->Mods.Empty();
-	for (TSharedPtr<FEditableItem> item : Items)
-		Settings->Mods.Add(item->Text);
-	Settings->SaveConfig();
-	return FReply::Handled();
-}
-
 FReply SAlpakaWidget::Pakit()
 {
-	SaveSettings();
 	AlpakitButton.Get()->SetEnabled(false);
 	CookContent();
 	return FReply::Handled();
@@ -247,12 +192,6 @@ void SAlpakaWidget::CookDone(FString result, double runtime)
 	if (result.Equals("completed", ESearchCase::IgnoreCase))
 	{
 		// Cooking was successful
-		TArray<FString> mods;
-		for (TSharedPtr<FEditableItem> ModItem : Items)
-		{
-			mods.Add(ModItem->Text);
-		}
-
 		FString CmdExe = TEXT("cmd.exe");
 		FString UPakPath = FPaths::ConvertRelativePathToFull(FPaths::EngineDir() / TEXT("Binaries/Win64/UnrealPak.exe"));
 		FString PakListPath = FPaths::ConvertRelativePathToFull(FPaths::EngineDir() / TEXT("Programs/AutomationTool/Saved/Logs") / FString::Printf(TEXT("PakList_%s-WindowsNoEditor.txt"), FApp::GetProjectName()));
@@ -261,18 +200,34 @@ void SAlpakaWidget::CookDone(FString result, double runtime)
 		TArray<FString> FilesToPak;
 		FFileHelper::LoadFileToStringArray(FilesToPak, *PakListPath);
 
-		for (FString mod : mods)
+		for (FAlpakitMod mod : Settings->Mods)
 		{
 			// Choose from the cooked list only the current mod assets
 			TArray<FString> ModFilesToPak;
-			FString modCookFolder = FPaths::ConvertRelativePathToFull(FPaths::ProjectDir() / FString::Printf(TEXT("Saved/Cooked/WindowsNoEditor/%s/Content/FactoryGame/%s"), FApp::GetProjectName(), *mod)).Replace(L"/", L"\\");
+			FString contentFolder = FPaths::ConvertRelativePathToFull(FPaths::ProjectDir() / FString::Printf(TEXT("Saved/Cooked/WindowsNoEditor/%s/Content"), FApp::GetProjectName()));
+			FString modCookFolder = (contentFolder / FString::Printf(TEXT("FactoryGame/%s"), *mod.Name)).Replace(L"/", L"\\");
 			UE_LOG(LogTemp, Log, TEXT("%s"), *modCookFolder);
 			for (FString file : FilesToPak)
+			{
 				if (file.TrimQuotes().StartsWith(modCookFolder))
 					ModFilesToPak.Add(file);
+				else if (file.TrimQuotes().StartsWith((contentFolder / TEXT("FactoryGame")).Replace(L"/", L"\\")))
+				{
+					for (FString path : mod.OverwritePaths)
+					{
+						FString cookedFilePath = (contentFolder / path.RightChop(6)).Replace(L"/", L"\\"); // Should cut /Game/ from the path. Pls don't cause issues.
+						FString uassetPath = FString::Printf(TEXT("%s.uasset"), *cookedFilePath);
+						FString uexpPath = FString::Printf(TEXT("%s.uexp"), *cookedFilePath);
+						if (file.TrimQuotes().StartsWith(uassetPath) || file.TrimQuotes().StartsWith(uexpPath))
+							ModFilesToPak.Add(file);
+					}
+				}
+			}
+
+			FString pakName = FString::Printf(TEXT("%s%s"), *mod.Name, mod.OverwritePaths.Num() == 0 ? TEXT("") : TEXT("_p"));
 
 			// Save it for UnrealPak.exe
-			FString ModPakListPath = FPaths::ConvertRelativePathToFull(FPaths::EngineDir() / TEXT("Programs/AutomationTool/Saved/Logs") / FString::Printf(TEXT("PakList_%s-WindowsNoEditor.txt"), *mod));
+			FString ModPakListPath = FPaths::ConvertRelativePathToFull(FPaths::EngineDir() / TEXT("Programs/AutomationTool/Saved/Logs") / FString::Printf(TEXT("PakList_%s-WindowsNoEditor.txt"), *pakName));
 			FFileHelper::SaveStringArrayToFile(ModFilesToPak, *ModPakListPath);
 			
 			// Setup the pak file path
@@ -280,25 +235,25 @@ void SAlpakaWidget::CookDone(FString result, double runtime)
 			FString modPakFolder = FPaths::ConvertRelativePathToFull(FPaths::ProjectDir() / L"Mods");
 			if (!PlatformFile.DirectoryExists(*modPakFolder))
 				PlatformFile.CreateDirectory(*modPakFolder);
-			FString pakFilePath = FPaths::ConvertRelativePathToFull(FPaths::ProjectDir() / L"Mods" / FString::Printf(L"%s.pak", *mod));
+			FString pakFilePath = FPaths::ConvertRelativePathToFull(FPaths::ProjectDir() / L"Mods" / FString::Printf(L"%s.pak", *pakName));
 			
 			// Run the paker and wait
 			FString FullCommandLine = FString::Printf(TEXT("/c \"\"%s\" %s\""), *UPakPath, *FString::Printf(TEXT("%s -create=\"%s\""), *pakFilePath, *ModPakListPath));
 			TSharedPtr<FMonitoredProcess> PakingProcess = MakeShareable(new FMonitoredProcess(CmdExe, FullCommandLine, true));
-			PakingProcess->OnOutput().BindLambda([this, mod](FString output) { UE_LOG(LogTemp, Log, TEXT("Paking %s: %s"), *mod, *output); });
+			PakingProcess->OnOutput().BindLambda([this, mod](FString output) { UE_LOG(LogTemp, Log, TEXT("Paking %s: %s"), *mod.Name, *output); });
 			PakingProcess->Launch();
 
-			UE_LOG(LogTemp, Log, TEXT("Packing %s"), *mod);
+			UE_LOG(LogTemp, Log, TEXT("Packing %s"), *mod.Name);
 			while (PakingProcess->Update())
 				FPlatformProcess::Sleep(0.03);
 
 			// Copy to Satisfactory Content/Paks folder
-			PlatformFile.CopyFile(*FPaths::ConvertRelativePathToFull(Settings->SatisfactoryGamePath.ToString() / FString::Printf(L"FactoryGame/Content/Paks/%s.pak", *mod)), *pakFilePath);
+			PlatformFile.CopyFile(*FPaths::ConvertRelativePathToFull(Settings->SatisfactoryGamePath.ToString() / FString::Printf(L"FactoryGame/Content/Paks/%s.pak", *pakName)), *pakFilePath);
 
 			// Copy sig
-			PlatformFile.CopyFile(*FPaths::ConvertRelativePathToFull(Settings->SatisfactoryGamePath.ToString() / FString::Printf(L"FactoryGame/Content/Paks/%s.sig", *mod)), *FPaths::ConvertRelativePathToFull(Settings->SatisfactoryGamePath.ToString() / L"FactoryGame/Content/Paks/FactoryGame-WindowsNoEditor.sig"));
+			PlatformFile.CopyFile(*FPaths::ConvertRelativePathToFull(Settings->SatisfactoryGamePath.ToString() / FString::Printf(L"FactoryGame/Content/Paks/%s.sig", *pakName)), *FPaths::ConvertRelativePathToFull(Settings->SatisfactoryGamePath.ToString() / L"FactoryGame/Content/Paks/FactoryGame-WindowsNoEditor.sig"));
 
-			UE_LOG(LogTemp, Log, TEXT("Packed %s"), *mod);
+			UE_LOG(LogTemp, Log, TEXT("Packed %s"), *mod.Name);
 		}
 		AlpakitButton.Get()->SetEnabled(true);
 		if (Settings->StartGame)

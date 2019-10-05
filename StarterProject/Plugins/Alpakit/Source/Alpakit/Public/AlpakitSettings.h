@@ -1,14 +1,24 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Editor/DetailCustomizations/Public/DetailCustomizations.h"
+#include "Editor/PropertyEditor/Public/IDetailCustomization.h"
+#include "DetailLayoutBuilder.h"
 #include "AlpakitSettings.generated.h"
 
-/**
- * Setting object used to hold both config settings and editable ones in one place
- * To ensure the settings are saved to the specified config file make sure to add
- * props using the globalconfig or config meta.
- */
-UCLASS(config = Game, defaultconfig)
+USTRUCT()
+struct FAlpakitMod
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, config)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, config)
+	TArray<FString> OverwritePaths;
+};
+
+UCLASS(config = Game)
 class UAlpakitSettings : public UObject
 {
 	GENERATED_BODY()
@@ -16,13 +26,36 @@ class UAlpakitSettings : public UObject
 public:
 	UAlpakitSettings(const FObjectInitializer& ObjectInitializer);
 
-	UPROPERTY(EditAnywhere, config, Category = Custom)
+	UPROPERTY(EditAnywhere, config, Category = Config)
 	FText SatisfactoryGamePath;
 	
-	UPROPERTY(EditAnywhere, config, Category = Custom)
-	TArray<FString> Mods;
+	UPROPERTY(EditAnywhere, config, Category = Mods)
+	TArray<FAlpakitMod> Mods;
 	
-	UPROPERTY(EditAnywhere, config, Category = Custom)
+	UPROPERTY(EditAnywhere, config, Category = Config)
 	bool StartGame;
 
+};
+
+
+#pragma once
+
+class FAlpakitModDetails : public IDetailCustomization
+{
+public:
+	/** Makes a new instance of this detail layout class for a specific detail view requesting it */
+	static TSharedRef<IDetailCustomization> MakeInstance()
+	{
+		return MakeShareable(new FAlpakitModDetails);
+	}
+
+	/** IDetailCustomization interface */
+	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override
+	{
+		TSharedPtr<IPropertyHandle> SatisfactoryGamePathPropHandle = DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(UAlpakitSettings, SatisfactoryGamePath));
+		TSharedPtr<IPropertyHandle> ModsPropHandle = DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(UAlpakitSettings, Mods));
+		TSharedPtr<IPropertyHandle> StartGamePropHandle = DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(UAlpakitSettings, StartGame));
+		SatisfactoryGamePathPropHandle->MarkHiddenByCustomization();
+		StartGamePropHandle->MarkHiddenByCustomization();
+	}
 };

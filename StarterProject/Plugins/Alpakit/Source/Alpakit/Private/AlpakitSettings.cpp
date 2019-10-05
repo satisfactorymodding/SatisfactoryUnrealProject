@@ -2,5 +2,4 @@
 
 UAlpakitSettings::UAlpakitSettings(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-
 }
