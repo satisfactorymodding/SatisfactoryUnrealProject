@@ -238,7 +238,7 @@ void SAlpakaWidget::CookDone(FString result, double runtime)
 			FString pakFilePath = FPaths::ConvertRelativePathToFull(FPaths::ProjectDir() / L"Mods" / FString::Printf(L"%s.pak", *pakName));
 			
 			// Run the paker and wait
-			FString FullCommandLine = FString::Printf(TEXT("/c \"\"%s\" %s\""), *UPakPath, *FString::Printf(TEXT("%s -create=\"%s\""), *pakFilePath, *ModPakListPath));
+			FString FullCommandLine = FString::Printf(TEXT("/c \"\"%s\" %s\""), *UPakPath, *FString::Printf(TEXT("\"%s\" -create=\"%s\""), *pakFilePath, *ModPakListPath));
 			TSharedPtr<FMonitoredProcess> PakingProcess = MakeShareable(new FMonitoredProcess(CmdExe, FullCommandLine, true));
 			PakingProcess->OnOutput().BindLambda([this, mod](FString output) { UE_LOG(LogTemp, Log, TEXT("Paking %s: %s"), *mod.Name, *output); });
 			PakingProcess->Launch();
