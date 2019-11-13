@@ -3,7 +3,7 @@
 //Slate
 #include "Slate.h"
 #include "AlpakitSettings.h"
-#include "EditableItem.h"
+#include "IDetailsView.h"
 
 class SAlpakaWidget : public SCompoundWidget
 {
@@ -28,25 +28,19 @@ public:
 	// UI
 	TSharedPtr<SButton> AlpakitButton;
 	TSharedPtr<SButton> SaveSettingsButton;
-	TSharedPtr<SListView<TSharedPtr<FEditableItem>>> ListViewWidget;
 
 	// Bindings
 	UAlpakitSettings* Settings;
 
-	TArray<TSharedPtr<FEditableItem>> Items;
+	/** The details view we do most of our work within */
+	TSharedPtr<IDetailsView> DetailsView;
 
 	// Functions
 	FReply ChooseSatisfactoryFolder();
 	bool OpenFileDialog(const FString& DialogTitle, const FString& DefaultPath, const FString& FileTypes, TArray<FString>& OutFileNames);
 	bool OpenDirectoryDialog(const FString& DialogTitle, const FString& DefaultPath, FString& OutFileNames);
 	FReply Pakit();
-	FReply SaveSettings();
 
 	void CookContent();
 	void CookDone(FString result, double runtime);
-
-	FReply AddMod();
-
-	/* Adds a new textbox with the string to the list */
-	TSharedRef<ITableRow> OnGenerateRowForList(TSharedPtr<FEditableItem> Item, const TSharedRef<STableViewBase>& OwnerTable);
 };
