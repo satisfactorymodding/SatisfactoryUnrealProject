@@ -2,19 +2,19 @@
 
 Starter project, tools and all information regarding pak modding in Satisfactory.
 
-# Wiki
+# Docs
 
-https://github.com/satisfactorymodding/SatisfactoryUnrealProject/wiki
+https://satisfactorymodding.github.io/Documentation/
 
 # Required Tools
 
-* Unreal Engine 4 (version 4.21.2)
+* Unreal Engine 4 (version 4.21.2 or 4.22 for experimental)
 * Visual Studio 2017
 * The Starter Project
 * SML
 * Wwise
 
-_(Note: Links can be found in the guide)_
+_(Note: Links can be found in the docs)_
 
 # Disclaimer
 
