@@ -1,3 +1,4 @@
+/EHsc
 /Zc:inline
 /nologo
 /Oi
@@ -24,7 +25,7 @@
 /wd4838
 /we4668
 /I .
-/I F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source\Alpakit\Private
+/I C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source\Alpakit\Private
 /I Runtime
 /I Runtime\Projects\Public
 /I Runtime\Projects
@@ -413,22 +414,23 @@
 /I Runtime\AIModule\Public
 /I Runtime\AIModule\Classes
 /I Runtime\AIModule
-/I F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Inc\Alpakit
-/I F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source
-/I F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source\Alpakit\Public
-/I F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source\Alpakit
-/I "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.21.27702\INCLUDE"
+/I C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Inc\Alpakit
+/I C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source
+/I C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source\Alpakit\Public
+/I C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source\Alpakit
+/I "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\INCLUDE"
 /I "C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"
-/FI"F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Intermediate\Build\Win64\FactoryGameEditor\Development\UnrealEd\SharedPCH.UnrealEd.h"
-/Yu"F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Intermediate\Build\Win64\FactoryGameEditor\Development\UnrealEd\SharedPCH.UnrealEd.h"
-/Fp"F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Intermediate\Build\Win64\FactoryGameEditor\Development\UnrealEd\SharedPCH.UnrealEd.h.pch"
-"F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Module.Alpakit.cpp"
-/FI"F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Definitions.Alpakit.h"
-/Fo"F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Module.Alpakit.cpp.obj"
+/FI"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Intermediate\Build\Win64\FactoryGameEditor\Development\UnrealEd\SharedPCH.UnrealEd.h"
+/Yu"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Intermediate\Build\Win64\FactoryGameEditor\Development\UnrealEd\SharedPCH.UnrealEd.h"
+/Fp"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Intermediate\Build\Win64\FactoryGameEditor\Development\UnrealEd\SharedPCH.UnrealEd.h.pch"
+"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Module.Alpakit.cpp"
+/FI"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Definitions.Alpakit.h"
+/Fo"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Module.Alpakit.cpp.obj"
+/std:c++17
 /TP
 /GR-
 /W4

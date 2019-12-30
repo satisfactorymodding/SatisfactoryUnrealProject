@@ -6,8 +6,8 @@
 /NAME:"UE4Editor-Alpakit.dll"
 /IGNORE:4221
 /NODEFAULTLIB
-"F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Intermediate\Build\Win64\FactoryGameEditor\Development\UnrealEd\SharedPCH.UnrealEd.h.obj"
-"F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Module.Alpakit.cpp.obj"
-"F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Module.Alpakit.gen.cpp.obj"
-"F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\PCLaunch.rc.res"
-/OUT:"F:\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\UE4Editor-Alpakit.lib"
+"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Intermediate\Build\Win64\FactoryGameEditor\Development\UnrealEd\SharedPCH.UnrealEd.h.obj"
+"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Module.Alpakit.cpp.obj"
+"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Module.Alpakit.gen.cpp.obj"
+"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\PCLaunch.rc.res"
+/OUT:"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\UE4Editor-Alpakit.lib"
