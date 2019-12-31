@@ -4,7 +4,7 @@ Starter project, tools and all information regarding pak modding in Satisfactory
 
 # Docs
 
-https://satisfactorymodding.github.io/Documentation/
+https://docs.ficsit.app/
 
 # Required Tools
 
