@@ -387,19 +387,23 @@ private:
 	/** Is the building overclocking unlocked */
 	UPROPERTY( SaveGame, Replicated )
 	bool mIsBuildingOverclockUnlocked;
-	
+
+public:
 	/** There can only be one trading post in the game, so we keep track it here so that we also can replicate it to client */
-	UPROPERTY( SaveGame, Replicated )
+	UPROPERTY( SaveGame, Replicated, BlueprintReadWrite )
 	bool mIsTradingPostBuilt;
 
+private:
 	/** The first time you build a trading post we want the landing animation to play */
 	UPROPERTY( SaveGame, Replicated )
 	bool mHasInitalTradingPostLandAnimPlayed;
 
+public:
 	/** There can only be one tow truck in the game, so we keep track it here so that we also can replicate it to client */
-	UPROPERTY( SaveGame, Replicated )
+	UPROPERTY( SaveGame, Replicated, BlueprintReadWrite )
 	bool mIsSpaceElevatorBuilt;
 
+private:
 	/** Starting slots for a players inventory */
 	UPROPERTY( EditDefaultsOnly )
 	int32 mDefaultPlayerInventorySlots;
