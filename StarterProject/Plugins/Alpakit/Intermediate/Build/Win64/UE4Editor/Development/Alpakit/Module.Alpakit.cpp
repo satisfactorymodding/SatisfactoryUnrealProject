@@ -4,4 +4,3 @@
 #include "C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source\Alpakit\Private\AlpakitOverwriteWidget.cpp"
 #include "C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source\Alpakit\Private\AlpakitSettings.cpp"
 #include "C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source\Alpakit\Private\AlpakitStyle.cpp"
-#include "C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Source\Alpakit\Private\AlpakitWidget.cpp"

@@ -140,6 +140,7 @@ TSharedRef<SWidget> SAlpakaWidget::AsWidget()
 
 FReply SAlpakaWidget::Pakit()
 {
+	Settings->SaveConfig();
 	AlpakitButton.Get()->SetEnabled(false);
 	CookContent();
 	return FReply::Handled();

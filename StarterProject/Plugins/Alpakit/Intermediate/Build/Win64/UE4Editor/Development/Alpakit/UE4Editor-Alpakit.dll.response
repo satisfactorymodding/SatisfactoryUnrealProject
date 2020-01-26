@@ -32,6 +32,7 @@
 /NODEFAULTLIB:"LIBCPD"
 "C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Intermediate\Build\Win64\FactoryGameEditor\Development\UnrealEd\SharedPCH.UnrealEd.h.obj"
 "C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Module.Alpakit.cpp.obj"
+"C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\AlpakitWidget.cpp.obj"
 "C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\Module.Alpakit.gen.cpp.obj"
 "C:\Users\Mircea\SatisfactoryModding\SatisfactoryUnrealProject\StarterProject\Plugins\Alpakit\Intermediate\Build\Win64\UE4Editor\Development\Alpakit\PCLaunch.rc.res"
 "delayimp.lib"
